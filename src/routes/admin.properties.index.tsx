@@ -1,8 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { propertiesQuery, zonesQuery } from "@/lib/data";
 import { CATEGORY_LABEL, type Category } from "@/lib/codes";
@@ -25,7 +23,7 @@ function AdminProps() {
     <div>
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-bold text-primary-deep">Properties</h1>
-        <Button asChild><Link to="/admin/properties/$id" params={{ id: "new" }}><Plus /> New listing</Link></Button>
+        
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
         <Input className="col-span-2 h-9 sm:w-56" placeholder="Search code, title, plot…" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} />
@@ -36,12 +34,12 @@ function AdminProps() {
 
       <div className="mt-4 space-y-3 md:hidden">
         {list.map((p) => (
-          <Link key={p.id} to="/admin/properties/$id" params={{ id: p.id }} className="block rounded-2xl border bg-card p-4">
+          <div key={p.id} className="block rounded-2xl border bg-card p-4">
             <div className="flex justify-between gap-2 text-xs"><span className="font-semibold text-muted-foreground">{p.code}</span><span className="capitalize">{p.status}</span></div>
             <div className="mt-1 font-semibold">{p.title}</div>
             <div className="mt-1 text-xs text-muted-foreground">{p.zones?.name} · {p.unit_no} · {p.units_available} avail.</div>
             <div className="mt-2 font-display font-bold text-primary">{naira(p.price)}</div>
-          </Link>
+          </div>
         ))}
       </div>
 
@@ -54,7 +52,7 @@ function AdminProps() {
             {list.map((p) => (
               <tr key={p.id} className="border-t">
                 <td className="p-3 font-mono text-xs">{p.code}</td>
-                <td className="p-3"><Link to="/admin/properties/$id" params={{ id: p.id }} className="font-medium hover:text-primary">{p.title}</Link>{p.easy_buy && <span className="ml-2 rounded bg-gold px-1.5 text-[10px] font-bold text-gold-foreground">EASY BUY</span>}{!p.published && <span className="ml-2 text-[10px] text-muted-foreground">(hidden)</span>}</td>
+                <td className="p-3"><span className="font-medium">{p.title}</span>{p.easy_buy && <span className="ml-2 rounded bg-gold px-1.5 text-[10px] font-bold text-gold-foreground">EASY BUY</span>}{!p.published && <span className="ml-2 text-[10px] text-muted-foreground">(hidden)</span>}</td>
                 <td className="p-3 text-xs">{p.zones?.name}</td>
                 <td className="p-3 text-xs">{CATEGORY_LABEL[p.category as Category]}</td>
                 <td className="p-3 text-xs">{p.unit_no}</td>

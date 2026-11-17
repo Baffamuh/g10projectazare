@@ -54,7 +54,7 @@ function Detail() {
       <Link to="/properties" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"><ArrowLeft className="size-4" /> All properties</Link>
       <div className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="min-w-0">
-          <WatermarkedImage src={photos[idx]} alt={p.title} eager className="aspect-[4/3] rounded-2xl" />
+          <WatermarkedImage src={photos[idx] ?? photos[0] ?? ""} alt={p.title} eager className="aspect-[4/3] rounded-2xl" />
           {photos.length > 1 && (
             <div className="mt-3 flex gap-2 overflow-x-auto">
               {photos.map((u, i) => (

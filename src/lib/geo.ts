@@ -19,8 +19,8 @@ export function polygonAreaM2(pts: LatLng[]): number {
   if (pts.length < 3) return 0;
   let total = 0;
   for (let i = 0; i < pts.length; i++) {
-    const p1 = pts[i];
-    const p2 = pts[(i + 1) % pts.length];
+    const p1 = pts[i]!;
+    const p2 = pts[(i + 1) % pts.length]!;
     total += rad(p2.lng - p1.lng) * (2 + Math.sin(rad(p1.lat)) + Math.sin(rad(p2.lat)));
   }
   return Math.abs((total * R * R) / 2);

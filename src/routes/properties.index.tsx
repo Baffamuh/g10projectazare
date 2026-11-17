@@ -6,15 +6,15 @@ import { propertiesQuery, zonesQuery } from "@/lib/data";
 import { CATEGORY_LABEL, CONDITION_LABEL } from "@/lib/codes";
 import { cn } from "@/lib/utils";
 
-type Search = { tx?: "sale" | "rent"; cat?: string; cond?: string; zone?: string; easy?: boolean };
+type Search = { tx?: "sale" | "rent" | undefined; cat?: string | undefined; cond?: string | undefined; zone?: string | undefined; easy?: boolean | undefined };
 
 export const Route = createFileRoute("/properties/")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    tx: s.tx === "sale" || s.tx === "rent" ? s.tx : undefined,
-    cat: typeof s.cat === "string" ? s.cat : undefined,
-    cond: typeof s.cond === "string" ? s.cond : undefined,
-    zone: typeof s.zone === "string" ? s.zone : undefined,
-    easy: s.easy === true || s.easy === "true" ? true : undefined,
+    tx: s["tx"] === "sale" || s["tx"] === "rent" ? s["tx"] : undefined,
+    cat: typeof s["cat"] === "string" ? s["cat"] : undefined,
+    cond: typeof s["cond"] === "string" ? s["cond"] : undefined,
+    zone: typeof s["zone"] === "string" ? s["zone"] : undefined,
+    easy: s["easy"] === true || s["easy"] === "true" ? true : undefined,
   }),
   head: () => ({
     meta: [

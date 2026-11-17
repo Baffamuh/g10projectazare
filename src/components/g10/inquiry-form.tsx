@@ -20,14 +20,14 @@ export function InquiryForm({ propertyId, propertyCode }: { propertyId?: string;
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = schema.safeParse(form);
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]?.message ?? "Check the form"); return; }
     setBusy(true);
     const { error } = await supabase.from("inquiries").insert({
       name: parsed.data.name, phone: parsed.data.phone, message: parsed.data.message || null,
       property_id: propertyId ?? null, property_code: propertyCode ?? null,
     });
     setBusy(false);
-    if (error) return toast.error("Could not send. Please try WhatsApp.");
+    if (error) { toast.error("Could not send. Please try WhatsApp."); return; }
     setDone(true);
     toast.success("Thank you! We'll call you shortly.");
   }

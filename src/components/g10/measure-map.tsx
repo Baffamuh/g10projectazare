@@ -31,7 +31,7 @@ export default function MeasureMap() {
       layers.current.sat = Lmod.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Imagery © Esri", maxZoom: 19 });
       layers.current.group = Lmod.layerGroup().addTo(m);
       m.on("click", (e: LT.LeafletMouseEvent) => {
-        if (walkRef.current === "walking") return;
+        if (walkRef.current !== "walking")
         setPts((p) => [...p, { lat: e.latlng.lat, lng: e.latlng.lng }]);
       });
       map.current = m;
@@ -55,7 +55,7 @@ export default function MeasureMap() {
     const n = pts.length;
     const edges = n >= 3 ? n : n - 1;
     for (let i = 0; i < edges; i++) {
-      const a = pts[i], b = pts[(i + 1) % n];
+      const a = pts[i]!, b = pts[(i + 1) % n]!;
       const d = distanceM(a, b);
       Lm.marker([(a.lat + b.lat) / 2, (a.lng + b.lng) / 2], {
         interactive: false,
@@ -74,13 +74,13 @@ export default function MeasureMap() {
   useEffect(() => {
     const Lm = L.current; const m = map.current;
     if (!Lm || !m) return;
-    if (!pos) { layers.current.me?.remove(); layers.current.me = undefined; return; }
+    if (!pos) { layers.current.me?.remove(); delete layers.current.me; return; }
     if (!layers.current.me) layers.current.me = Lm.circleMarker([pos.lat, pos.lng], { radius: 8, color: "#fff", weight: 3, fillColor: "#2563eb", fillOpacity: 1 }).addTo(m);
     else layers.current.me.setLatLng([pos.lat, pos.lng]);
   }, [pos]);
 
   function startWalk() {
-    if (!("geolocation" in navigator)) return toast.error("GPS is not available on this device");
+    if (!("geolocation" in navigator)) { toast.error("GPS is not available on this device"); return; }
     setWalk("walking");
     if (watchId.current != null) return;
     let first = true;
@@ -96,13 +96,13 @@ export default function MeasureMap() {
   }
   function stopWatch() { if (watchId.current != null) navigator.geolocation.clearWatch(watchId.current); watchId.current = null; }
   function markCorner() {
-    if (!pos) return toast.error("Waiting for GPS signal…");
+    if (!pos) { toast.error("Waiting for GPS signal…"); return; }
     setPts((p) => [...p, { lat: pos.lat, lng: pos.lng }]);
     toast.success(`Corner ${pts.length + 1} recorded (±${Math.round(pos.acc)} m)`);
   }
 
   const s = areaSummary(pts);
-  const perimeter = pts.length >= 2 ? pts.reduce((sum, p, i) => (i === pts.length - 1 && pts.length < 3 ? sum : sum + distanceM(p, pts[(i + 1) % pts.length])), 0) : 0;
+  const perimeter = pts.length >= 2 ? pts.reduce((sum, p, i) => (i === pts.length - 1 && pts.length < 3 ? sum : sum + distanceM(p, pts[(i + 1) % pts.length]!)), 0) : 0;
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">

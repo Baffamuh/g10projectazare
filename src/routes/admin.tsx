@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { LayoutDashboard, Building2, MapPinned, MessageSquare, Receipt, LogOut } from "lucide-react";
+import { LayoutDashboard, Building2, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +17,6 @@ export const Route = createFileRoute("/admin")({
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/properties", label: "Properties", icon: Building2 },
-  { to: "/admin/locations", label: "Locations", icon: MapPinned },
-  { to: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
-  { to: "/admin/sales", label: "Sales & Receipts", icon: Receipt },
 ] as const;
 
 function AdminLayout() {

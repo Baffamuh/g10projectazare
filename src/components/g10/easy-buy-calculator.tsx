@@ -31,7 +31,7 @@ export function EasyBuyCalculator({ price: fixedPrice, code, title, phone }: { p
 
       <div className="mt-4">
         <div className="flex justify-between text-sm font-medium"><span>Down payment</span><span className="text-primary">{down}% · {naira(plan.down)}</span></div>
-        <Slider className="mt-3" min={10} max={90} step={5} value={[down]} onValueChange={(v) => setDown(v[0])} />
+        <Slider className="mt-3" min={10} max={90} step={5} value={[down]} onValueChange={(v) => setDown(v[0] ?? 30)} />
         <div className="mt-3 flex gap-2">
           {DOWN_OPTIONS.map((d) => (
             <button key={d} type="button" onClick={() => setDown(d)} className={cn("flex-1 rounded-lg border py-1.5 text-sm font-semibold", down === d ? "border-primary bg-primary text-primary-foreground" : "hover:bg-secondary")}>{d}%</button>
