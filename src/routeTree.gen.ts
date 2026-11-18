@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BookInspectionRouteImport } from './routes/book-inspection'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EasyBuyRouteImport } from './routes/easy-buy'
 import { Route as MeasureRouteImport } from './routes/measure'
@@ -34,6 +35,11 @@ const AboutRoute = AboutRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookInspectionRoute = BookInspectionRouteImport.update({
+  id: '/book-inspection',
+  path: '/book-inspection',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
+  '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/book-inspection'
     | '/contact'
     | '/easy-buy'
     | '/measure'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/book-inspection'
     | '/contact'
     | '/easy-buy'
     | '/measure'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/book-inspection'
     | '/contact'
     | '/easy-buy'
     | '/measure'
@@ -161,6 +173,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
+  BookInspectionRoute: typeof BookInspectionRoute
   ContactRoute: typeof ContactRoute
   EasyBuyRoute: typeof EasyBuyRoute
   MeasureRoute: typeof MeasureRoute
@@ -190,6 +203,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-inspection': {
+      id: '/book-inspection'
+      path: '/book-inspection'
+      fullPath: '/book-inspection'
+      preLoaderRoute: typeof BookInspectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
+  BookInspectionRoute: BookInspectionRoute,
   ContactRoute: ContactRoute,
   EasyBuyRoute: EasyBuyRoute,
   MeasureRoute: MeasureRoute,

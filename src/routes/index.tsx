@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FeaturedEstates } from "@/components/g10/featured-estates";
 import { EasyBuyCalculator } from "@/components/g10/easy-buy-calculator";
 import { PropertyCard } from "@/components/g10/property-card";
+import { TrustStats, TestimonialsAndCta } from "@/components/g10/trust-section";
 import { WhatsAppIcon } from "@/components/g10/whatsapp-icon";
 import { propertiesQuery, zonesQuery } from "@/lib/data";
 import { COMPANY, waLink } from "@/lib/brand";
@@ -17,6 +18,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Buy land, houses, shops and farms in Azare, Bauchi State. Pay small-small with G10 EASY BUY — zero interest." },
       { property: "og:title", content: "G10 City Project — Plots & Houses in Azare" },
       { property: "og:description", content: "Fatara Phase 3, Chara-Chara G.R.A and more. Flexible EASY BUY installments." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Index,
@@ -63,6 +66,8 @@ function Index() {
         </div>
       </section>
 
+      <TrustStats />
+
       <FeaturedEstates />
 
       <section className="bg-secondary/60">
@@ -103,6 +108,8 @@ function Index() {
           ))}
         </div>
       </section>
+
+      <TestimonialsAndCta />
     </>
   );
 }

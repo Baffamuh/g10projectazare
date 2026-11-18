@@ -84,6 +84,42 @@ export type Database = {
           },
         ]
       }
+      inspections: {
+        Row: {
+          created_at: string
+          estate: string
+          id: string
+          name: string
+          note: string | null
+          phone: string
+          preferred_date: string
+          status: string
+          time_slot: string
+        }
+        Insert: {
+          created_at?: string
+          estate: string
+          id?: string
+          name: string
+          note?: string | null
+          phone: string
+          preferred_date: string
+          status?: string
+          time_slot: string
+        }
+        Update: {
+          created_at?: string
+          estate?: string
+          id?: string
+          name?: string
+          note?: string | null
+          phone?: string
+          preferred_date?: string
+          status?: string
+          time_slot?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           area_id: string | null

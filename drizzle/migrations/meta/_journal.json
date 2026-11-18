@@ -8,6 +8,13 @@
       "when": 1794925441642,
       "tag": "0000_g10_core_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794995256554,
+      "tag": "0001_site_inspections",
+      "breakpoints": true
     }
   ]
 }

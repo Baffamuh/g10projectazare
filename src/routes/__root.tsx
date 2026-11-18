@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/g10/site-header";
 import { SiteFooter } from "@/components/g10/site-footer";
+import { MobileActionBar } from "@/components/g10/mobile-action-bar";
 import { supabase } from "@/integrations/supabase/client";
 
 import appCss from "../styles.css?url";
@@ -143,6 +144,8 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
+        <MobileActionBar />
+        <div className="h-14 sm:hidden" />
       </div>
       <Toaster richColors position="top-center" />
     </QueryClientProvider>
