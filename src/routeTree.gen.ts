@@ -17,10 +17,14 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EasyBuyRouteImport } from './routes/easy-buy'
 import { Route as MeasureRouteImport } from './routes/measure'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
+import { Route as AdminLocationsRouteImport } from './routes/admin.locations'
 import { Route as PCodeRouteImport } from './routes/p.$code'
 import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesCodeRouteImport } from './routes/properties.$code'
 import { Route as AdminPropertiesIndexRouteImport } from './routes/admin.properties.index'
+import { Route as AdminPropertiesIdRouteImport } from './routes/admin.properties.$id'
+import { Route as AdminPropertiesNewRouteImport } from './routes/admin.properties.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,6 +66,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLocationsRoute = AdminLocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => AdminRoute,
+} as any)
 const PCodeRoute = PCodeRouteImport.update({
   id: '/p/$code',
   path: '/p/$code',
@@ -82,6 +96,16 @@ const AdminPropertiesIndexRoute = AdminPropertiesIndexRouteImport.update({
   path: '/properties/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPropertiesIdRoute = AdminPropertiesIdRouteImport.update({
+  id: '/properties/$id',
+  path: '/properties/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPropertiesNewRoute = AdminPropertiesNewRouteImport.update({
+  id: '/properties/new',
+  path: '/properties/new',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,10 +115,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/admin/properties/$id': typeof AdminPropertiesIdRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
   '/admin/properties/': typeof AdminPropertiesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -104,10 +132,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin': typeof AdminIndexRoute
   '/properties': typeof PropertiesIndexRoute
+  '/admin/properties/$id': typeof AdminPropertiesIdRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
   '/admin/properties': typeof AdminPropertiesIndexRoute
 }
 export interface FileRoutesById {
@@ -119,10 +151,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
   '/measure': typeof MeasureRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/admin/properties/$id': typeof AdminPropertiesIdRoute
+  '/admin/properties/new': typeof AdminPropertiesNewRoute
   '/admin/properties/': typeof AdminPropertiesIndexRoute
 }
 export interface FileRouteTypes {
@@ -135,10 +171,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/easy-buy'
     | '/measure'
+    | '/admin/inquiries'
+    | '/admin/locations'
     | '/p/$code'
     | '/properties/$code'
     | '/admin/'
     | '/properties/'
+    | '/admin/properties/$id'
+    | '/admin/properties/new'
     | '/admin/properties/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -148,10 +188,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/easy-buy'
     | '/measure'
+    | '/admin/inquiries'
+    | '/admin/locations'
     | '/p/$code'
     | '/properties/$code'
     | '/admin'
     | '/properties'
+    | '/admin/properties/$id'
+    | '/admin/properties/new'
     | '/admin/properties'
   id:
     | '__root__'
@@ -162,10 +206,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/easy-buy'
     | '/measure'
+    | '/admin/inquiries'
+    | '/admin/locations'
     | '/p/$code'
     | '/properties/$code'
     | '/admin/'
     | '/properties/'
+    | '/admin/properties/$id'
+    | '/admin/properties/new'
     | '/admin/properties/'
   fileRoutesById: FileRoutesById
 }
@@ -240,6 +288,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/inquiries': {
+      id: '/admin/inquiries'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AdminInquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/locations': {
+      id: '/admin/locations'
+      path: '/locations'
+      fullPath: '/admin/locations'
+      preLoaderRoute: typeof AdminLocationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/p/$code': {
       id: '/p/$code'
       path: '/p/$code'
@@ -268,16 +330,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPropertiesIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/properties/$id': {
+      id: '/admin/properties/$id'
+      path: '/properties/$id'
+      fullPath: '/admin/properties/$id'
+      preLoaderRoute: typeof AdminPropertiesIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/properties/new': {
+      id: '/admin/properties/new'
+      path: '/properties/new'
+      fullPath: '/admin/properties/new'
+      preLoaderRoute: typeof AdminPropertiesNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminInquiriesRoute: typeof AdminInquiriesRoute
+  AdminLocationsRoute: typeof AdminLocationsRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminPropertiesIdRoute: typeof AdminPropertiesIdRoute
+  AdminPropertiesNewRoute: typeof AdminPropertiesNewRoute
   AdminPropertiesIndexRoute: typeof AdminPropertiesIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminInquiriesRoute: AdminInquiriesRoute,
+  AdminLocationsRoute: AdminLocationsRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminPropertiesIdRoute: AdminPropertiesIdRoute,
+  AdminPropertiesNewRoute: AdminPropertiesNewRoute,
   AdminPropertiesIndexRoute: AdminPropertiesIndexRoute,
 }
 
