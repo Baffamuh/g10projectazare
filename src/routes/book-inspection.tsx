@@ -45,11 +45,11 @@ function BookInspection() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const p = schema.safeParse(f);
-    if (!p.success) return toast.error(p.error.issues[0]?.message ?? "Check the form");
+    if (!p.success) { toast.error(p.error.issues[0]?.message ?? "Check the form"); return; }
     setBusy(true);
     const { error } = await supabase.from("inspections").insert({ ...p.data, note: p.data.note || null });
     setBusy(false);
-    if (error) return toast.error("Could not book. Please use WhatsApp.");
+    if (error) { toast.error("Could not book. Please use WhatsApp."); return; }
     const slot = p.data.time_slot === "morning" ? "Morning (9am–12pm)" : "Afternoon (1pm–5pm)";
     setDone(waLink(`Hello G10 City Project, I booked a site inspection.\nName: ${p.data.name}\nEstate: ${p.data.estate}\nDate: ${p.data.preferred_date}\nTime: ${slot}`));
     toast.success("Inspection booked!");

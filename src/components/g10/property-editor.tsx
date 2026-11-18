@@ -50,8 +50,8 @@ export function PropertyEditor({ id }: { id?: string }) {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!f.title.trim()) return toast.error("Enter a title");
-    if (isHouse && !f.condition) return toast.error("Choose the house condition");
+    if (!f.title.trim()) { toast.error("Enter a title"); return; }
+    if (isHouse && !f.condition) { toast.error("Choose the house condition"); return; }
     setBusy(true);
     try {
       const row = {
@@ -112,7 +112,7 @@ export function PropertyEditor({ id }: { id?: string }) {
     const paths = photos.map((p) => p.path).filter(Boolean) as string[];
     if (paths.length) await supabase.storage.from("property-photos").remove(paths);
     const { error } = await supabase.from("properties").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries();
     nav({ to: "/admin/properties" });
   }
