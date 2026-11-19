@@ -6,7 +6,7 @@ import { BROCHURE_URL } from "@/lib/images";
 const STATS = [
   { n: "500+", t: "Plots allocated" },
   { n: "6", t: "Zones in Azare" },
-  { n: "0%", t: "Easy Buy interest" },
+  { n: "6", t: "Zones in Azare" },
   { n: "24", t: "Months max. to pay" },
 ];
 const TESTIMONIALS = [

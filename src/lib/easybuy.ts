@@ -7,3 +7,6 @@ export function easyBuyPlan(price: number, downPct: number, months: number) {
   const monthly = months > 0 ? Math.ceil(balance / months) : balance;
   return { down, balance, monthly, total: price, interest: 0 };
 }
+
+/** Master switch: set to true to show Easy Buy across the site again. */
+export const EASY_BUY_ENABLED = false;

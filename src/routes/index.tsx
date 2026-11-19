@@ -5,6 +5,7 @@ import heroImg from "@/assets/hero-estate.jpg";
 import { Button } from "@/components/ui/button";
 import { FeaturedEstates } from "@/components/g10/featured-estates";
 import { EasyBuyCalculator } from "@/components/g10/easy-buy-calculator";
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { PropertyCard } from "@/components/g10/property-card";
 import { TrustStats, TestimonialsAndCta } from "@/components/g10/trust-section";
 import { WhatsAppIcon } from "@/components/g10/whatsapp-icon";
@@ -14,10 +15,10 @@ import { COMPANY, waLink } from "@/lib/brand";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "G10 City Project — Plots & Houses in Azare with Easy Buy" },
-      { name: "description", content: "Buy land, houses, shops and farms in Azare, Bauchi State. Pay small-small with G10 EASY BUY — zero interest." },
+      { title: "G10 City Project — Plots & Houses in Azare" },
+      { name: "description", content: "Buy land, houses, shops and farms in Azare, Bauchi State. Verified plots and trusted documentation." },
       { property: "og:title", content: "G10 City Project — Plots & Houses in Azare" },
-      { property: "og:description", content: "Fatara Phase 3, Chara-Chara G.R.A and more. Flexible EASY BUY installments." },
+      { property: "og:description", content: "Fatara Phase 3, Chara-Chara G.R.A and more. Plots, houses, shops and farms." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -36,15 +37,15 @@ function Index() {
         <img src={heroImg} alt="G10 estate in Azare" width={1600} height={640} className="absolute inset-0 -z-10 h-full w-full object-cover" />
         <div className="absolute inset-0 -z-10 bg-hero-overlay" />
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-24 sm:pb-20 sm:pt-36">
-          <span className="inline-block rounded-full bg-gold px-3 py-1 text-xs font-bold text-gold-foreground">EASY BUY · Biya a hankali</span>
+          <span className="inline-block rounded-full bg-gold px-3 py-1 text-xs font-bold text-gold-foreground">{EASY_BUY_ENABLED ? "EASY BUY · Biya a hankali" : "Azare · Bauchi State"}</span>
           <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-tight text-primary-foreground sm:text-6xl">
             Own land in Azare — <span className="text-gold">without the pressure.</span>
           </h1>
-          <p className="mt-4 max-w-xl text-base text-primary-foreground/85 sm:text-lg">{COMPANY.motto}. Plots, houses, shops and farmland with flexible zero-interest installments.</p>
+          <p className="mt-4 max-w-xl text-base text-primary-foreground/85 sm:text-lg">{COMPANY.motto}. Plots, houses, shops and farmland with {EASY_BUY_ENABLED ? "flexible zero-interest installments" : "trusted documentation"}.</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Button asChild variant="gold" size="lg"><Link to="/properties">Browse properties</Link></Button>
             <Button asChild variant="heroOutline" size="lg">
-              <a href={waLink("Hello G10 City Project, I'm interested in your EASY BUY plan.")} target="_blank" rel="noreferrer"><WhatsAppIcon /> Chat on WhatsApp</a>
+              <a href={waLink("Hello G10 City Project, I'm interested in your properties.")} target="_blank" rel="noreferrer"><WhatsAppIcon /> Chat on WhatsApp</a>
             </Button>
           </div>
         </div>
@@ -53,7 +54,7 @@ function Index() {
       <section className="border-b bg-card">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-6 lg:grid-cols-4">
           {[
-            { icon: Wallet, t: "0% interest", d: "Easy Buy installments" },
+            EASY_BUY_ENABLED ? { icon: Wallet, t: "0% interest", d: "Easy Buy installments" } : { icon: Wallet, t: "Fair prices", d: "Plots, houses & shops" },
             { icon: ShieldCheck, t: "Verified plots", d: "Surveyed 50×100ft" },
             { icon: MapPinned, t: "6 zones", d: "Across Azare" },
             { icon: Ruler, t: "Measure tool", d: "Walk your plot by GPS" },
@@ -70,7 +71,7 @@ function Index() {
 
       <FeaturedEstates />
 
-      <section className="bg-secondary/60">
+      {EASY_BUY_ENABLED && <section className="bg-secondary/60">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 lg:grid-cols-2">
           <div>
             <div className="text-sm font-semibold uppercase tracking-wider text-gold">The EASY BUY plan</div>
@@ -84,7 +85,7 @@ function Index() {
           </div>
           <EasyBuyCalculator />
         </div>
-      </section>
+      </section>}
 
       <section className="mx-auto max-w-7xl px-4 py-14">
         <div className="mb-6 flex items-end justify-between gap-4">

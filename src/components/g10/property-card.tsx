@@ -1,3 +1,4 @@
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { Link } from "@tanstack/react-router";
 import { MapPin } from "lucide-react";
 import { WatermarkedImage } from "./watermarked-image";
@@ -20,7 +21,7 @@ export function PropertyCard({ p }: { p: Property }) {
         <WatermarkedImage src={img} alt={p.title} className="aspect-[4/3]" />
         <div className="absolute left-2 top-2 flex flex-wrap gap-1.5">
           <span className="rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold text-primary-foreground">For {p.transaction === "sale" ? "Sale" : "Rent"}</span>
-          {p.easy_buy && <span className="rounded-full bg-gold px-2.5 py-1 text-[11px] font-bold text-gold-foreground">EASY BUY</span>}
+          {EASY_BUY_ENABLED && p.easy_buy && <span className="rounded-full bg-gold px-2.5 py-1 text-[11px] font-bold text-gold-foreground">EASY BUY</span>}
           {p.status !== "available" && <span className="rounded-full bg-destructive px-2.5 py-1 text-[11px] font-semibold text-destructive-foreground capitalize">{p.status}</span>}
         </div>
       </div>

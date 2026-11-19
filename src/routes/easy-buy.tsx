@@ -1,8 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { EasyBuyCalculator } from "@/components/g10/easy-buy-calculator";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/easy-buy")({
+  beforeLoad: () => { if (!EASY_BUY_ENABLED) throw redirect({ to: "/properties" }); },
   head: () => ({
     meta: [
       { title: "EASY BUY Installment Plan — G10 City Project Azare" },

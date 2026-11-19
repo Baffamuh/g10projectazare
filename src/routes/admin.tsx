@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { LayoutDashboard, Building2, LogOut } from "lucide-react";
+import { LayoutDashboard, Building2, LogOut, MapPin, Inbox, Receipt } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,9 @@ export const Route = createFileRoute("/admin")({
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/properties", label: "Properties", icon: Building2 },
+  { to: "/admin/sales", label: "Sales & Receipts", icon: Receipt },
+  { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
+  { to: "/admin/locations", label: "Locations", icon: MapPin },
 ] as const;
 
 function AdminLayout() {
@@ -65,25 +68,33 @@ function AdminLayout() {
 }
 
 function Login() {
+  const [mode, setMode] = useState<"in" | "up">("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const up = mode === "up";
   return (
     <div className="mx-auto max-w-sm px-4 py-16">
       <div className="rounded-3xl border bg-card p-6 shadow-card">
         <Logo className="mx-auto h-20 w-20" />
         <h1 className="mt-4 text-center text-xl font-bold text-primary-deep">Staff Portal</h1>
-        <p className="text-center text-sm text-muted-foreground">Sign in with your staff email</p>
+        <p className="text-center text-sm text-muted-foreground">{up ? "Create your staff account" : "Sign in with your staff email"}</p>
         <form className="mt-6 space-y-3" onSubmit={async (e) => {
           e.preventDefault(); setBusy(true);
-          const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+          const { error } = up
+            ? await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: window.location.origin + "/admin" } })
+            : await supabase.auth.signInWithPassword({ email: email.trim(), password });
           setBusy(false);
           if (error) toast.error(error.message);
+          else if (up) toast.success("Account created");
         }}>
           <Input type="email" placeholder="Email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <Input type="password" placeholder="Password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <Button className="w-full" size="lg" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</Button>
+          <Input type="password" placeholder={up ? "Password (min 6 characters)" : "Password"} minLength={6} autoComplete={up ? "new-password" : "current-password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <Button className="w-full" size="lg" disabled={busy}>{busy ? "Please wait…" : up ? "Create account" : "Sign in"}</Button>
         </form>
+        <button type="button" className="mt-4 w-full text-center text-sm font-semibold text-primary" onClick={() => setMode(up ? "in" : "up")}>
+          {up ? "Already have an account? Sign in" : "Don't have an account? Create one"}
+        </button>
       </div>
     </div>
   );

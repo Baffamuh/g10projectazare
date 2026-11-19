@@ -113,5 +113,8 @@
 @media print {
   .no-print { display: none !important; }
   body { background: white; }
-  @page { size: A4; margin: 12mm; }
+  @page { size: A4; margin: 0; }
+  footer { display: none !important; }
+  .receipt-a4 { box-shadow: none !important; width: 210mm !important; min-height: 0 !important; padding: 14mm !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

@@ -15,14 +15,13 @@ export function SiteFooter() {
             </div>
           </div>
           <p className="mt-4 max-w-md text-sm text-primary-foreground/75">
-            Land, houses, shops and farmland across Azare — with our EASY BUY plan you can pay small-small, without pressure.
+            Land, houses, shops and farmland across Azare.
           </p>
         </div>
         <div>
           <h4 className="mb-3 text-sm font-semibold text-gold">Explore</h4>
           <ul className="space-y-2 text-sm text-primary-foreground/80">
             <li><Link to="/properties">Properties</Link></li>
-            <li><Link to="/easy-buy">Easy Buy plan</Link></li>
             <li><Link to="/measure">Measure a plot</Link></li>
             <li><Link to="/admin">Staff login</Link></li>
           </ul>

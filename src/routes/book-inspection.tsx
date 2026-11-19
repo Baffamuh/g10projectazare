@@ -60,7 +60,7 @@ function BookInspection() {
       <div>
         <span className="grid size-12 place-items-center rounded-2xl bg-secondary text-primary"><CalendarCheck /></span>
         <h1 className="mt-4 text-3xl font-bold text-primary-deep sm:text-4xl">See it before you buy.</h1>
-        <p className="mt-3 text-muted-foreground">Book a free guided site inspection. Our team will meet you at the estate, show you the plot beacons and answer every question about titles and Easy Buy.</p>
+        <p className="mt-3 text-muted-foreground">Book a free guided site inspection. Our team will meet you at the estate, show you the plot beacons and answer every question about titles and payment.</p>
         <ul className="mt-6 space-y-2 text-sm">
           <li>✔ Free of charge, no obligation</li>
           <li>✔ Monday – Saturday, morning or afternoon</li>

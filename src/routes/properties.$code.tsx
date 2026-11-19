@@ -6,6 +6,7 @@ import { MapPin, Phone, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WatermarkedImage } from "@/components/g10/watermarked-image";
 import { EasyBuyCalculator } from "@/components/g10/easy-buy-calculator";
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { CopyLinkButton } from "@/components/g10/copy-link-button";
 import { InquiryForm } from "@/components/g10/inquiry-form";
 import { WhatsAppIcon } from "@/components/g10/whatsapp-icon";
@@ -22,9 +23,9 @@ export const Route = createFileRoute("/properties/$code")({
   head: ({ params }) => ({
     meta: [
       { title: `${params.code} — G10 City Project, Azare` },
-      { name: "description", content: `Property ${params.code} from G10 City Project Nigeria Limited, Azare. EASY BUY installments available.` },
+      { name: "description", content: `Property ${params.code} from G10 City Project Nigeria Limited, Azare.` },
       { property: "og:title", content: `${params.code} — G10 City Project` },
-      { property: "og:description", content: "View price, photos, location and Easy Buy plan." },
+      { property: "og:description", content: "View price, photos, location." },
     ],
   }),
   component: Detail,
@@ -67,7 +68,7 @@ function Detail() {
 
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">For {p.transaction === "sale" ? "Sale" : "Rent"}</span>
-            {p.easy_buy && <span className="rounded-full bg-gold px-3 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>}
+            {EASY_BUY_ENABLED && p.easy_buy && <span className="rounded-full bg-gold px-3 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>}
             <span className="rounded-full bg-gold-soft px-3 py-1 text-xs font-semibold text-gold-foreground">{unitsLabel(p)}</span>
             {p.status !== "available" && <span className="rounded-full bg-destructive px-3 py-1 text-xs font-semibold capitalize text-destructive-foreground">{p.status}</span>}
           </div>
@@ -108,7 +109,7 @@ function Detail() {
           )}
         </div>
         <aside className="space-y-5">
-          {p.easy_buy ? <EasyBuyCalculator price={Number(p.price)} code={p.code} title={p.title} phone={phone} /> : (
+          {!EASY_BUY_ENABLED ? null : p.easy_buy ? <EasyBuyCalculator price={Number(p.price)} code={p.code} title={p.title} phone={phone} /> : (
             <div className="rounded-2xl border bg-gold-soft p-5 text-sm"><b>Easy Buy</b> is not available on this listing. Ask us about other Easy Buy plots.</div>
           )}
           <InquiryForm propertyId={p.id} propertyCode={p.code} />

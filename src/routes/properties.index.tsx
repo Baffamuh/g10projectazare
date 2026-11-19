@@ -1,3 +1,4 @@
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/properties/")({
       { title: "Properties for Sale & Rent in Azare — G10 City Project" },
       { name: "description", content: "Browse houses, residential and commercial plots, farms and shops in Azare, Bauchi State." },
       { property: "og:title", content: "Properties in Azare — G10 City Project" },
-      { property: "og:description", content: "Houses, plots, farms and shops for sale and rent. EASY BUY available." },
+      { property: "og:description", content: "Houses, plots, farms and shops for sale and rent." },
     ],
   }),
   component: PropertiesPage,
@@ -66,9 +67,9 @@ function PropertiesPage() {
           <option value="">All zones</option>
           {zones.map((z) => <option key={z.id} value={z.name}>{z.name}</option>)}
         </select>
-        <label className="col-span-2 flex h-10 items-center gap-2 rounded-lg border bg-card px-3 text-sm font-medium">
+        {EASY_BUY_ENABLED && <label className="col-span-2 flex h-10 items-center gap-2 rounded-lg border bg-card px-3 text-sm font-medium">
           <input type="checkbox" checked={!!search.easy} onChange={(e) => set({ easy: e.target.checked || undefined })} /> Easy Buy only
-        </label>
+        </label>}
       </div>
       <p className="mt-4 text-sm text-muted-foreground">{isLoading ? "Loading…" : `${list.length} properties`}</p>
       <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

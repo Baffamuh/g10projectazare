@@ -9,7 +9,6 @@ import { waLink, COMPANY } from "@/lib/brand";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/properties", label: "Properties" },
-  { to: "/easy-buy", label: "Easy Buy" },
   { to: "/measure", label: "Measure Plot" },
   { to: "/book-inspection", label: "Inspection" },
   { to: "/about", label: "About" },

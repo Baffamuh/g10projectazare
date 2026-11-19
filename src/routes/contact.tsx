@@ -9,7 +9,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact G10 City Project — Azare, Bauchi State" },
-      { name: "description", content: `Call or WhatsApp ${COMPANY.phoneDisplay} for plots, houses and Easy Buy in Azare.` },
+      { name: "description", content: `Call or WhatsApp ${COMPANY.phoneDisplay} for plots, houses in Azare.` },
       { property: "og:title", content: "Contact G10 City Project" },
       { property: "og:description", content: "Reach our sales team on WhatsApp or by phone." },
     ],
