@@ -1,3 +1,4 @@
+import { EASY_BUY_ENABLED } from "@/lib/easybuy";
 import { Link } from "@tanstack/react-router";
 import { Stethoscope, GraduationCap, ShoppingBag, Trophy, MapPin, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,7 @@ export function FeaturedEstates() {
           <WatermarkedImage src={BROCHURE_URL} alt="Fatara Phase 3 Estate brochure" className="aspect-[16/11]" />
           <div className="p-5 sm:p-6">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-gold px-2.5 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>
+              {EASY_BUY_ENABLED && <span className="rounded-full bg-gold px-2.5 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>}
               <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground">Residential & Commercial plots</span>
             </div>
             <h3 className="mt-3 text-2xl font-bold text-primary-deep">Fatara Phase 3 Estate</h3>
@@ -51,7 +52,7 @@ export function FeaturedEstates() {
         <article className="flex flex-col overflow-hidden rounded-3xl border bg-card shadow-card lg:col-span-2">
           <WatermarkedImage src={LAND_IMG} alt="Chara-Chara G.R.A plots" className="aspect-[16/11]" />
           <div className="flex flex-1 flex-col p-5 sm:p-6">
-            <span className="w-fit rounded-full bg-gold px-2.5 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>
+            {EASY_BUY_ENABLED && <span className="w-fit rounded-full bg-gold px-2.5 py-1 text-xs font-bold text-gold-foreground">EASY BUY</span>}
             <h3 className="mt-3 text-2xl font-bold text-primary-deep">Chara-Chara G.R.A Azare Phase 2</h3>
             <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" /> G.R.A Kan Hanyan Chara-Chara</p>
             <ul className="mt-4 space-y-2 text-sm">
