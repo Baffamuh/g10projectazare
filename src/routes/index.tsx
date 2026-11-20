@@ -1,3 +1,4 @@
+import { DivisionsSection } from "@/components/g10/divisions-section";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck, Wallet, MapPinned, Ruler } from "lucide-react";
@@ -70,6 +71,8 @@ function Index() {
       <TrustStats />
 
       <FeaturedEstates />
+
+      <DivisionsSection />
 
       {EASY_BUY_ENABLED && <section className="bg-secondary/60">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 lg:grid-cols-2">

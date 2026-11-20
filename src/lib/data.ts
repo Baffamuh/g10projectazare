@@ -7,7 +7,7 @@ export type Property = Tables<"properties"> & {
   areas: { name: string } | null;
   property_photos: { url: string; sort: number }[];
 };
-export type Zone = Tables<"zones"> & { areas: Tables<"areas">[] };
+export type Zone = Tables<"zones"> & { areas: (Tables<"areas"> & { streets?: Tables<"streets">[] })[] };
 
 const SELECT = "*, zones(name), areas(name), property_photos(url, sort)";
 
@@ -35,7 +35,7 @@ export const zonesQuery = () =>
   queryOptions({
     queryKey: ["zones"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("zones").select("*, areas(*)").order("sort");
+      const { data, error } = await supabase.from("zones").select("*, areas(*, streets(*))").order("sort");
       if (error) throw error;
       return (data ?? []) as Zone[];
     },

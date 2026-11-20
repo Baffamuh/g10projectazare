@@ -319,6 +319,35 @@ export type Database = {
           },
         ]
       }
+      streets: {
+        Row: {
+          area_id: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          area_id: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          area_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "streets_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string

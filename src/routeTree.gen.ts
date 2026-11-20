@@ -15,10 +15,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookInspectionRouteImport } from './routes/book-inspection'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EasyBuyRouteImport } from './routes/easy-buy'
-import { Route as MeasureRouteImport } from './routes/measure'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
 import { Route as AdminLocationsRouteImport } from './routes/admin.locations'
+import { Route as AdminMeasureRouteImport } from './routes/admin.measure'
 import { Route as PCodeRouteImport } from './routes/p.$code'
 import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesCodeRouteImport } from './routes/properties.$code'
@@ -58,11 +58,6 @@ const EasyBuyRoute = EasyBuyRouteImport.update({
   path: '/easy-buy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MeasureRoute = MeasureRouteImport.update({
-  id: '/measure',
-  path: '/measure',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -76,6 +71,11 @@ const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
 const AdminLocationsRoute = AdminLocationsRouteImport.update({
   id: '/locations',
   path: '/locations',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMeasureRoute = AdminMeasureRouteImport.update({
+  id: '/measure',
+  path: '/measure',
   getParentRoute: () => AdminRoute,
 } as any)
 const PCodeRoute = PCodeRouteImport.update({
@@ -126,9 +126,9 @@ export interface FileRoutesByFullPath {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
-  '/measure': typeof MeasureRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
+  '/admin/measure': typeof AdminMeasureRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin/': typeof AdminIndexRoute
@@ -145,9 +145,9 @@ export interface FileRoutesByTo {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
-  '/measure': typeof MeasureRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
+  '/admin/measure': typeof AdminMeasureRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin': typeof AdminIndexRoute
@@ -166,9 +166,9 @@ export interface FileRoutesById {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
-  '/measure': typeof MeasureRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
+  '/admin/measure': typeof AdminMeasureRoute
   '/p/$code': typeof PCodeRoute
   '/properties/$code': typeof PropertiesCodeRoute
   '/admin/': typeof AdminIndexRoute
@@ -188,9 +188,9 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
-    | '/measure'
     | '/admin/inquiries'
     | '/admin/locations'
+    | '/admin/measure'
     | '/p/$code'
     | '/properties/$code'
     | '/admin/'
@@ -207,9 +207,9 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
-    | '/measure'
     | '/admin/inquiries'
     | '/admin/locations'
+    | '/admin/measure'
     | '/p/$code'
     | '/properties/$code'
     | '/admin'
@@ -227,9 +227,9 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
-    | '/measure'
     | '/admin/inquiries'
     | '/admin/locations'
+    | '/admin/measure'
     | '/p/$code'
     | '/properties/$code'
     | '/admin/'
@@ -248,7 +248,6 @@ export interface RootRouteChildren {
   BookInspectionRoute: typeof BookInspectionRoute
   ContactRoute: typeof ContactRoute
   EasyBuyRoute: typeof EasyBuyRoute
-  MeasureRoute: typeof MeasureRoute
   PCodeRoute: typeof PCodeRoute
   PropertiesCodeRoute: typeof PropertiesCodeRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
@@ -298,13 +297,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EasyBuyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/measure': {
-      id: '/measure'
-      path: '/measure'
-      fullPath: '/measure'
-      preLoaderRoute: typeof MeasureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -324,6 +316,13 @@ declare module '@tanstack/react-router' {
       path: '/locations'
       fullPath: '/admin/locations'
       preLoaderRoute: typeof AdminLocationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/measure': {
+      id: '/admin/measure'
+      path: '/measure'
+      fullPath: '/admin/measure'
+      preLoaderRoute: typeof AdminMeasureRouteImport
       parentRoute: typeof AdminRoute
     }
     '/p/$code': {
@@ -388,6 +387,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminInquiriesRoute: typeof AdminInquiriesRoute
   AdminLocationsRoute: typeof AdminLocationsRoute
+  AdminMeasureRoute: typeof AdminMeasureRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminPropertiesIdRoute: typeof AdminPropertiesIdRoute
   AdminPropertiesNewRoute: typeof AdminPropertiesNewRoute
@@ -399,6 +399,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminInquiriesRoute: AdminInquiriesRoute,
   AdminLocationsRoute: AdminLocationsRoute,
+  AdminMeasureRoute: AdminMeasureRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminPropertiesIdRoute: AdminPropertiesIdRoute,
   AdminPropertiesNewRoute: AdminPropertiesNewRoute,
@@ -416,7 +417,6 @@ const rootRouteChildren: RootRouteChildren = {
   BookInspectionRoute: BookInspectionRoute,
   ContactRoute: ContactRoute,
   EasyBuyRoute: EasyBuyRoute,
-  MeasureRoute: MeasureRoute,
   PCodeRoute: PCodeRoute,
   PropertiesCodeRoute: PropertiesCodeRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,

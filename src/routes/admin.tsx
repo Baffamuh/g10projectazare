@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { LayoutDashboard, Building2, LogOut, MapPin, Inbox, Receipt } from "lucide-react";
+import { LayoutDashboard, Building2, LogOut, MapPin, Inbox, Receipt, Ruler } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,7 @@ const NAV = [
   { to: "/admin/sales", label: "Sales & Receipts", icon: Receipt },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
   { to: "/admin/locations", label: "Locations", icon: MapPin },
+  { to: "/admin/measure", label: "Measure Tool", icon: Ruler },
 ] as const;
 
 function AdminLayout() {

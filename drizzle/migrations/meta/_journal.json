@@ -15,6 +15,13 @@
       "when": 1794995256554,
       "tag": "0001_site_inspections",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795148080843,
+      "tag": "0002_add_streets",
+      "breakpoints": true
     }
   ]
 }

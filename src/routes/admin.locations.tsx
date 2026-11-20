@@ -15,6 +15,7 @@ function Locations() {
   const { data: zones = [] } = useQuery(zonesQuery());
   const [zone, setZone] = useState({ name: "", description: "" });
   const [areaName, setAreaName] = useState<Record<string, string>>({});
+  const [streetName, setStreetName] = useState<Record<string, string>>({});
   const refresh = () => qc.invalidateQueries({ queryKey: ["zones"] });
   const run = async (p: PromiseLike<{ error: { message: string } | null }>) => { const { error } = await p; if (error) toast.error(error.message); else refresh(); return !error; };
 
@@ -38,8 +39,24 @@ function Locations() {
             </div>
             <ul className="mt-3 space-y-1">
               {z.areas.map((a) => (
-                <li key={a.id} className="flex items-center justify-between rounded-lg bg-secondary px-3 py-1.5 text-sm">{a.name}
-                  <button aria-label="Delete area" className="text-destructive" onClick={() => run(supabase.from("areas").delete().eq("id", a.id))}><Trash2 className="size-3.5" /></button>
+                <li key={a.id} className="rounded-lg bg-secondary px-3 py-2 text-sm">
+                  <div className="flex items-center justify-between font-medium">{a.name}
+                    <button aria-label="Delete area" className="text-destructive" onClick={() => confirm(`Delete area "${a.name}" and its streets?`) && run(supabase.from("areas").delete().eq("id", a.id))}><Trash2 className="size-3.5" /></button>
+                  </div>
+                  <ul className="mt-1 space-y-0.5 pl-3">
+                    {(a.streets ?? []).map((st) => (
+                      <li key={st.id} className="flex items-center justify-between text-xs text-muted-foreground">• {st.name}
+                        <button aria-label="Delete street" className="text-destructive" onClick={() => run(supabase.from("streets").delete().eq("id", st.id))}><Trash2 className="size-3" /></button>
+                      </li>
+                    ))}
+                  </ul>
+                  <form className="mt-1.5 flex gap-1.5" onSubmit={async (e) => {
+                    e.preventDefault(); const n = (streetName[a.id] ?? "").trim(); if (!n) return;
+                    if (await run(supabase.from("streets").insert({ area_id: a.id, name: n }))) setStreetName({ ...streetName, [a.id]: "" });
+                  }}>
+                    <Input className="h-8 bg-card text-xs" placeholder="Add street" value={streetName[a.id] ?? ""} onChange={(e) => setStreetName({ ...streetName, [a.id]: e.target.value })} />
+                    <Button size="sm" variant="outline" className="h-8">Add</Button>
+                  </form>
                 </li>
               ))}
             </ul>

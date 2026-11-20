@@ -22,7 +22,6 @@ export function SiteFooter() {
           <h4 className="mb-3 text-sm font-semibold text-gold">Explore</h4>
           <ul className="space-y-2 text-sm text-primary-foreground/80">
             <li><Link to="/properties">Properties</Link></li>
-            <li><Link to="/measure">Measure a plot</Link></li>
             <li><Link to="/admin">Staff login</Link></li>
           </ul>
         </div>
