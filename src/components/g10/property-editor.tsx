@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { ClientOnly } from "@tanstack/react-router";
+const MeasureMap = lazy(() => import("@/components/g10/measure-map"));
 import { useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -27,6 +29,8 @@ export function PropertyEditor({ id }: { id?: string }) {
   const [code, setCode] = useState<string | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [busy, setBusy] = useState(false);
+  const [pending, setPending] = useState<File[]>([]);
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -73,6 +77,7 @@ export function PropertyEditor({ id }: { id?: string }) {
         const { data, error } = await supabase.from("properties").insert({ ...row, code: newCode as string }).select("id").single();
         if (error) throw error;
         toast.success(`Created ${newCode}`);
+        if (pending.length) await uploadTo(data.id, pending, 0);
         qc.invalidateQueries();
         nav({ to: "/admin/properties/$id", params: { id: data.id } });
         return;
@@ -84,10 +89,17 @@ export function PropertyEditor({ id }: { id?: string }) {
   }
 
   async function upload(files: FileList | null) {
-    if (!id || !files) return;
+    if (!files) return;
+    if (!id) { setPending((p) => [...p, ...Array.from(files)]); return; }
     setBusy(true);
-    let sort = photos.length;
-    for (const file of Array.from(files)) {
+    await uploadTo(id, Array.from(files), photos.length);
+    setBusy(false);
+    qc.invalidateQueries();
+  }
+
+  async function uploadTo(id: string, files: File[], start: number) {
+    let sort = start;
+    for (const file of files) {
       const path = `${id}/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, "_")}`;
       const { error } = await supabase.storage.from("property-photos").upload(path, file, { contentType: file.type });
       if (error) { toast.error(error.message); continue; }
@@ -96,8 +108,6 @@ export function PropertyEditor({ id }: { id?: string }) {
       const { data: ph } = await supabase.from("property_photos").insert({ property_id: id, url: s.signedUrl, path, sort: sort++ }).select("id,url,path,sort").single();
       if (ph) setPhotos((p) => [...p, ph as Photo]);
     }
-    setBusy(false);
-    qc.invalidateQueries();
   }
 
   async function removePhoto(p: Photo) {
@@ -149,9 +159,22 @@ export function PropertyEditor({ id }: { id?: string }) {
 
       <div className="rounded-2xl border bg-card p-5">
         <div className="flex items-center justify-between"><h2 className="font-display font-bold">Photos</h2>
-          {id && <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium"><Upload className="size-4" /> Upload<input type="file" accept="image/*" multiple hidden onChange={(e) => upload(e.target.files)} /></label>}
+          <div className="flex gap-2">
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium"><Upload className="size-4" /> Upload<input type="file" accept="image/*" multiple hidden onChange={(e) => { upload(e.target.files); e.target.value = ""; }} /></label>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium">Take photo<input type="file" accept="image/*" capture="environment" hidden onChange={(e) => { upload(e.target.files); e.target.value = ""; }} /></label>
+          </div>
         </div>
-        {!id ? <p className="mt-2 text-sm text-muted-foreground">Save the listing first, then add photos.</p> : (
+        {!id ? (
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {pending.map((f, i) => (
+              <div key={i} className="relative overflow-hidden rounded-xl border">
+                <img src={URL.createObjectURL(f)} alt="" className="aspect-square w-full object-cover" />
+                <button type="button" onClick={() => setPending((p) => p.filter((_, j) => j !== i))} className="absolute right-1 top-1 rounded-md bg-card/90 p-1 text-destructive" aria-label="Remove photo"><Trash2 className="size-4" /></button>
+              </div>
+            ))}
+            {!pending.length && <p className="col-span-full text-sm text-muted-foreground">No photos yet. They upload when you create the listing.</p>}
+          </div>
+        ) : (
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {photos.map((p) => (
               <div key={p.id} className="relative overflow-hidden rounded-xl border">
@@ -162,6 +185,16 @@ export function PropertyEditor({ id }: { id?: string }) {
             {!photos.length && <p className="col-span-full text-sm text-muted-foreground">No photos yet.</p>}
           </div>
         )}
+      </div>
+
+      <div className="rounded-2xl border bg-card p-5">
+        <div className="flex items-center justify-between"><h2 className="font-display font-bold">Measure this property</h2>
+          <Button type="button" variant="outline" size="sm" onClick={() => setShowMap((v) => !v)}>{showMap ? "Hide map" : "Open measure tool"}</Button>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">Mark the corners on the map or walk them with GPS, then tap "Use this measurement" to fill size and location.</p>
+        {showMap && <div className="mt-4"><ClientOnly fallback={<div className="h-[60vh] rounded-2xl bg-muted" />}><Suspense fallback={<div className="h-[60vh] rounded-2xl bg-muted" />}>
+          <MeasureMap onUse={(r) => { setF((o) => ({ ...o, size_text: `${Math.round(r.m2).toLocaleString()} m² (${Math.round(r.ft2).toLocaleString()} ft², ${r.plots.toFixed(2)} plots)`, lat: r.lat.toFixed(6), lng: r.lng.toFixed(6) })); toast.success("Size and location filled in"); }} />
+        </Suspense></ClientOnly></div>}
       </div>
 
       <div className="flex flex-wrap gap-3">

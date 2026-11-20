@@ -8,7 +8,8 @@ import { toast } from "sonner";
 type WalkState = "idle" | "walking" | "paused" | "done";
 const fmt = (n: number, d = 1) => n.toLocaleString("en-NG", { maximumFractionDigits: d, minimumFractionDigits: d });
 
-export default function MeasureMap() {
+export type MeasureResult = { m2: number; ft2: number; plots: number; lat: number; lng: number };
+export default function MeasureMap({ onUse }: { onUse?: (r: MeasureResult) => void } = {}) {
   const el = useRef<HTMLDivElement>(null);
   const L = useRef<typeof LT | null>(null);
   const map = useRef<LT.Map | null>(null);
@@ -110,11 +111,11 @@ export default function MeasureMap() {
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <div className="inline-flex rounded-lg border bg-card p-1">
             {(["street", "sat"] as const).map((b) => (
-              <button key={b} onClick={() => setBase(b)} className={`rounded-md px-3 py-1.5 text-sm font-semibold ${base === b ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>{b === "street" ? "Street" : "Satellite"}</button>
+              <button type="button" key={b} onClick={() => setBase(b)} className={`rounded-md px-3 py-1.5 text-sm font-semibold ${base === b ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>{b === "street" ? "Street" : "Satellite"}</button>
             ))}
           </div>
-          <Button size="sm" variant="outline" onClick={() => setPts((p) => p.slice(0, -1))} disabled={!pts.length}><Undo2 /> Undo</Button>
-          <Button size="sm" variant="outline" onClick={() => setPts([])} disabled={!pts.length}><Trash2 /> Clear</Button>
+          <Button type="button" size="sm" variant="outline" onClick={() => setPts((p) => p.slice(0, -1))} disabled={!pts.length}><Undo2 /> Undo</Button>
+          <Button type="button" size="sm" variant="outline" onClick={() => setPts([])} disabled={!pts.length}><Trash2 /> Clear</Button>
         </div>
         <div ref={el} className="h-[60vh] min-h-[380px] w-full overflow-hidden rounded-2xl border" />
         <p className="mt-2 text-xs text-muted-foreground">Tap the map to drop numbered corner pins. Drag pins to adjust.</p>
@@ -128,6 +129,7 @@ export default function MeasureMap() {
             <Stat label="50×100ft plots" value={fmt(s.plots, 2)} highlight />
             <Stat label="Perimeter" value={`${fmt(perimeter)} m`} />
           </div>
+          {onUse && pts.length >= 3 && <Button type="button" className="mt-3 w-full" onClick={() => onUse({ m2: s.m2, ft2: s.ft2, plots: s.plots, lat: pts.reduce((a, p) => a + p.lat, 0) / pts.length, lng: pts.reduce((a, p) => a + p.lng, 0) / pts.length })}>Use this measurement</Button>}
           <div className="mt-3 text-xs text-muted-foreground">{pts.length} corner{pts.length === 1 ? "" : "s"}{pts.length < 3 && " · add at least 3"}</div>
         </div>
         <div className="rounded-2xl border bg-card p-5">
@@ -136,17 +138,17 @@ export default function MeasureMap() {
           {pos && <p className="mt-2 text-xs">GPS accuracy: ±{Math.round(pos.acc)} m</p>}
           <div className="mt-3 grid grid-cols-2 gap-2">
             {walk === "idle" || walk === "done" ? (
-              <Button className="col-span-2" onClick={() => { if (walk === "done") setPts([]); startWalk(); }}><Play /> Start</Button>
+              <Button type="button" className="col-span-2" onClick={() => { if (walk === "done") setPts([]); startWalk(); }}><Play /> Start</Button>
             ) : walk === "walking" ? (
               <>
-                <Button variant="gold" className="col-span-2" onClick={markCorner}><Crosshair /> Mark corner</Button>
-                <Button variant="outline" onClick={() => setWalk("paused")}><Pause /> Pause</Button>
-                <Button onClick={() => { stopWatch(); setPos(null); setWalk("done"); }}><Flag /> Finish</Button>
+                <Button type="button" variant="gold" className="col-span-2" onClick={markCorner}><Crosshair /> Mark corner</Button>
+                <Button type="button" variant="outline" onClick={() => setWalk("paused")}><Pause /> Pause</Button>
+                <Button type="button" onClick={() => { stopWatch(); setPos(null); setWalk("done"); }}><Flag /> Finish</Button>
               </>
             ) : (
               <>
-                <Button onClick={() => setWalk("walking")}><Play /> Resume</Button>
-                <Button variant="outline" onClick={() => { stopWatch(); setPos(null); setWalk("done"); }}><Flag /> Finish</Button>
+                <Button type="button" onClick={() => setWalk("walking")}><Play /> Resume</Button>
+                <Button type="button" variant="outline" onClick={() => { stopWatch(); setPos(null); setWalk("done"); }}><Flag /> Finish</Button>
               </>
             )}
           </div>
