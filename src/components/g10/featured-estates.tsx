@@ -41,7 +41,7 @@ export function FeaturedEstates() {
             </div>
             <div className="mt-5 flex flex-col gap-2 sm:flex-row">
               <Button asChild variant="whatsapp" size="lg">
-                <a href={waLink("Hello G10 City Project, I want to inquire about plots in Fatara Phase 3 Estate (residential & commercial). Please send me prices and available plots.")} target="_blank" rel="noreferrer" onClick={() => window.__lovableEvents?.track?.("project.whatsapp_inquiry_clicked", { source: "estate", name: "Fatara Phase 3 Estate" })}>
+                <a href={waLink("Hello G10 City Project, I want to inquire about plots in Fatara Phase 3 Estate (residential & commercial). Please send me prices and available plots.")} target="_blank" rel="noreferrer" onClick={() => window.__lovableEvents?.track?.("project.whatsapp_inquiry_clicked", { source: "estate", target: "fatara_phase_3" })}>
                   <WhatsAppIcon /> Inquire About Fatara Phase 3
                 </a>
               </Button>

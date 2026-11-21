@@ -1,7 +1,10 @@
 import { DivisionsSection } from "@/components/g10/divisions-section";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ShieldCheck, Wallet, MapPinned, Ruler } from "lucide-react";
+import { ShieldCheck, Wallet, MapPinned, Building2, Search } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { CATEGORY_LABEL } from "@/lib/codes";
 import heroImg from "@/assets/hero-estate.jpg";
 import { Button } from "@/components/ui/button";
 import { FeaturedEstates } from "@/components/g10/featured-estates";
@@ -32,6 +35,11 @@ function Index() {
   const { data: zones = [] } = useQuery(zonesQuery());
   const latest = props.filter((p) => p.status !== "sold").slice(0, 6);
 
+  const nav = useNavigate();
+  const [qz, setQz] = useState("");
+  const [qc, setQc] = useState("");
+  const [qt, setQt] = useState<"" | "sale" | "rent">("");
+  const qf = "h-11 w-full rounded-lg border bg-card px-3 text-sm text-foreground";
   return (
     <>
       <section className="relative isolate overflow-hidden">
@@ -49,6 +57,19 @@ function Index() {
               <a href={waLink("Hello G10 City Project, I'm interested in your properties.")} target="_blank" rel="noreferrer"><WhatsAppIcon /> Chat on WhatsApp</a>
             </Button>
           </div>
+          <form onSubmit={(e) => { e.preventDefault(); nav({ to: "/properties", search: { tx: qt || undefined, cat: qc || undefined, cond: undefined, zone: qz || undefined, easy: undefined } }); }}
+            className="mt-8 grid max-w-3xl grid-cols-2 gap-2 rounded-2xl bg-card/95 p-3 shadow-card backdrop-blur sm:grid-cols-4">
+            <select aria-label="Zone" className={qf} value={qz} onChange={(e) => setQz(e.target.value)}>
+              <option value="">All zones</option>{zones.map((z) => <option key={z.id} value={z.name}>{z.name}</option>)}
+            </select>
+            <select aria-label="Category" className={qf} value={qc} onChange={(e) => setQc(e.target.value)}>
+              <option value="">All types</option>{Object.entries(CATEGORY_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            </select>
+            <select aria-label="Sale or rent" className={qf} value={qt} onChange={(e) => setQt(e.target.value as "" | "sale" | "rent")}>
+              <option value="">Sale or rent</option><option value="sale">For Sale</option><option value="rent">For Rent</option>
+            </select>
+            <Button type="submit" size="lg" className="h-11"><Search className="size-4" /> Search</Button>
+          </form>
         </div>
       </section>
 
@@ -58,7 +79,7 @@ function Index() {
             EASY_BUY_ENABLED ? { icon: Wallet, t: "0% interest", d: "Easy Buy installments" } : { icon: Wallet, t: "Fair prices", d: "Plots, houses & shops" },
             { icon: ShieldCheck, t: "Verified plots", d: "Surveyed 50×100ft" },
             { icon: MapPinned, t: "6 zones", d: "Across Azare" },
-            { icon: Ruler, t: "Measure tool", d: "Walk your plot by GPS" },
+            { icon: Building2, t: "7 Business Services", d: "Property, blocks & more" },
           ].map(({ icon: I, t, d }) => (
             <div key={t} className="flex items-center gap-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-secondary text-primary"><I className="size-5" /></span>

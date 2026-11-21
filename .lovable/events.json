@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "events": {
+    "project.plot_recommendation_requested": {
+      "event_schema_version": 1,
+      "description": "A buyer asked Find My Plot for property suggestions.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "zone",
+          "results"
+        ],
+        "properties": {
+          "zone": {
+            "type": "string"
+          },
+          "results": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "project.whatsapp_inquiry_clicked": {
+      "event_schema_version": 1,
+      "description": "A visitor tapped a WhatsApp inquiry button for a business division or featured estate.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "target"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "division",
+              "estate"
+            ]
+          },
+          "target": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

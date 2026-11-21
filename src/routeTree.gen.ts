@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookInspectionRouteImport } from './routes/book-inspection'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EasyBuyRouteImport } from './routes/easy-buy'
+import { Route as FindMyPlotRouteImport } from './routes/find-my-plot'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
 import { Route as AdminLocationsRouteImport } from './routes/admin.locations'
@@ -56,6 +57,11 @@ const ContactRoute = ContactRouteImport.update({
 const EasyBuyRoute = EasyBuyRouteImport.update({
   id: '/easy-buy',
   path: '/easy-buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindMyPlotRoute = FindMyPlotRouteImport.update({
+  id: '/find-my-plot',
+  path: '/find-my-plot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
+  '/find-my-plot': typeof FindMyPlotRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/measure': typeof AdminMeasureRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
+  '/find-my-plot': typeof FindMyPlotRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/measure': typeof AdminMeasureRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/book-inspection': typeof BookInspectionRoute
   '/contact': typeof ContactRoute
   '/easy-buy': typeof EasyBuyRoute
+  '/find-my-plot': typeof FindMyPlotRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/measure': typeof AdminMeasureRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
+    | '/find-my-plot'
     | '/admin/inquiries'
     | '/admin/locations'
     | '/admin/measure'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
+    | '/find-my-plot'
     | '/admin/inquiries'
     | '/admin/locations'
     | '/admin/measure'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/book-inspection'
     | '/contact'
     | '/easy-buy'
+    | '/find-my-plot'
     | '/admin/inquiries'
     | '/admin/locations'
     | '/admin/measure'
@@ -248,6 +260,7 @@ export interface RootRouteChildren {
   BookInspectionRoute: typeof BookInspectionRoute
   ContactRoute: typeof ContactRoute
   EasyBuyRoute: typeof EasyBuyRoute
+  FindMyPlotRoute: typeof FindMyPlotRoute
   PCodeRoute: typeof PCodeRoute
   PropertiesCodeRoute: typeof PropertiesCodeRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
@@ -295,6 +308,13 @@ declare module '@tanstack/react-router' {
       path: '/easy-buy'
       fullPath: '/easy-buy'
       preLoaderRoute: typeof EasyBuyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-my-plot': {
+      id: '/find-my-plot'
+      path: '/find-my-plot'
+      fullPath: '/find-my-plot'
+      preLoaderRoute: typeof FindMyPlotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -417,6 +437,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookInspectionRoute: BookInspectionRoute,
   ContactRoute: ContactRoute,
   EasyBuyRoute: EasyBuyRoute,
+  FindMyPlotRoute: FindMyPlotRoute,
   PCodeRoute: PCodeRoute,
   PropertiesCodeRoute: PropertiesCodeRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,

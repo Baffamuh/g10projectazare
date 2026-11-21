@@ -20,7 +20,7 @@ export function DivisionsSection() {
               <h3 className="mt-3 font-display font-bold">{d.name}</h3>
               <p className="mt-1 flex-1 text-sm text-muted-foreground">{d.desc}</p>
               <Button asChild variant="whatsapp" size="sm" className="mt-4 self-start">
-                <a href={waLink(`Hello G10, I'm interested in ${d.name}.`)} target="_blank" rel="noreferrer" onClick={() => window.__lovableEvents?.track?.("project.whatsapp_inquiry_clicked", { source: "division", name: d.name })}><WhatsAppIcon className="size-4" /> {d.cta}</a>
+                <a href={waLink(`Hello G10, I'm interested in ${d.name}.`)} target="_blank" rel="noreferrer" onClick={() => window.__lovableEvents?.track?.("project.whatsapp_inquiry_clicked", { source: "division", target: d.name })}><WhatsAppIcon className="size-4" /> {d.cta}</a>
               </Button>
             </div>
           );
