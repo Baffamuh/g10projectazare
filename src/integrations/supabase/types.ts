@@ -319,6 +319,24 @@ export type Database = {
           },
         ]
       }
+      site_settings: {
+        Row: {
+          easy_buy_enabled: boolean
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          easy_buy_enabled?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          easy_buy_enabled?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       streets: {
         Row: {
           area_id: string
